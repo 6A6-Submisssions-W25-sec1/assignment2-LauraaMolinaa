@@ -23,17 +23,18 @@ namespace MauiEmail.Models
         public List<MailboxAddress> MailAddresses { get; set; }
         public bool IsRead { get; set; }
 
-
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public ObservableMessage(MailKit.IMessageSummary message)
+        public ObservableMessage(IMessageSummary message)
         {
-            IsRead = (message.Flags == MessageFlags.Seen);
-            From = (MailboxAddress)message.Envelope.From[0];
-            Subject = message.Envelope.Subject;
+            UniqueId = message.UniqueId;
             Date = message.Envelope.Date;
+            Subject = message.Envelope.Subject;
             Body = null;
-            HtmlBody = null; 
+            HtmlBody = null;
+            From = (MailboxAddress)message.Envelope.From[0];
+            MailAddresses = new List<MailboxAddress>();
+            IsRead = (message.Flags == MessageFlags.Seen);
         }
 
         public ObservableMessage(MimeMessage mimeMessage, MailKit.UniqueId uniqueId)
@@ -43,9 +44,19 @@ namespace MauiEmail.Models
             Subject = mimeMessage.Subject;
             Body = mimeMessage.Body.ToString();
             HtmlBody = mimeMessage.HtmlBody;
-            //From = mimeMessage.From;
-            //missing MailAddress list 
+            From = (MailboxAddress)mimeMessage.From[0]; //?
+            MailAddresses = new List<MailboxAddress>();
             //IsRead?
         }
+
+        //public MimeMessage ToMime()
+        //{
+
+        //}
+
+        //public Email GetForward()
+        //{
+
+        //}
     }
 }

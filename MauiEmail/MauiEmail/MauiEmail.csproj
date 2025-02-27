@@ -67,7 +67,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Configs\" />
-	  <Folder Include="Interfaces\" />
 	  <Folder Include="DataRepos\" />
 	  <Folder Include="Converters\" />
 	  <Folder Include="Views\" />
